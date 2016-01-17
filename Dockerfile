@@ -20,11 +20,13 @@ RUN conda install -y numpy
 
 RUN conda install -y \
     scipy \
+    h5py \
     matplotlib \
     seaborn \
     jupyter \
     scikit-learn \
     pandas \
+    theano \
     six \
     && conda clean -yt
 
@@ -32,13 +34,8 @@ RUN pip3 install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/t
 
 # Install ML components
 
-
+RUN pip install --upgrade --no-deps git+git://github.com/Theano/Theano.git
 
 RUN pip install xgboost keras
-
-
-
-# Theano
-RUN pip install --upgrade --no-deps git+git://github.com/Theano/Theano.git
 
 USER jovyan
