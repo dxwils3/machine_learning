@@ -90,4 +90,6 @@ RUN pip --no-cache-dir install \
 VOLUME /notebook
 WORKDIR /notebook
 EXPOSE 8888
+
 CMD ["ipython","notebook","--no-browser","--ip=0.0.0.0"]
+
