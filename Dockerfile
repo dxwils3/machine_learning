@@ -52,9 +52,6 @@ RUN conda install --yes \
     terminado \
     && conda clean -yt
 
-# Configure container startup as root
-EXPOSE 8888
-
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
     build-essential \
