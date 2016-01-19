@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM krallin/ubuntu-tini:trusty
 
 MAINTAINER dxwils3@gmail.com
 
@@ -14,6 +14,14 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     unzip \
     libsm6 \
     pandoc \
+    emacs \	   
+    subversion \
+#    python3-setuptools \
+#    python3-pip \
+#    python3.4-dev \
+    gfortran \
+    libopenblas-dev \
+    liblapack-dev \
     texlive-latex-base \
     texlive-latex-extra \
     texlive-fonts-extra \
@@ -23,14 +31,9 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     locales \
     libxrender1 \
     && apt-get clean
+
 RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
     locale-gen
-
-# Install Tini
-RUN wget --quiet https://github.com/krallin/tini/releases/download/v0.6.0/tini && \
-    echo "d5ed732199c36a1189320e6c4859f0169e950692f451c03e7854243b95f4234b *tini" | sha256sum -c - && \
-    mv tini /usr/local/bin/tini && \
-    chmod +x /usr/local/bin/tini
 
 # Configure environment
 ENV CONDA_DIR /opt/conda
@@ -52,9 +55,6 @@ RUN conda install --yes \
     terminado \
     && conda clean -yt
 
-# Configure container startup as root
-EXPOSE 8888
-
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
     build-essential \
@@ -75,7 +75,19 @@ RUN conda install -y \
     seaborn \
     scikit-learn
 
+RUN conda install -y \
+    numpy \
+    scipy
+
+#RUN pip3 install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.6.0-cp34-none-linux_x86_64.whl
+
+RUN pip install xgboost
+
+ENV TENSORFLOW_VERSION 0.6.0
+RUN pip --no-cache-dir install \
+    https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-${TENSORFLOW_VERSION}-cp27-none-linux_x86_64.whl
+
 VOLUME /notebook
 WORKDIR /notebook
 EXPOSE 8888
-CMD ipython notebook --no-browser --ip=0.0.0.0
+CMD ["ipython","notebook","--no-browser","--ip=0.0.0.0"]
