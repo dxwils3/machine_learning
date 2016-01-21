@@ -7,3 +7,5 @@ To install the Docker image, run
 This will mount the directory LOCAL_DIR as /notebook in the container, which will be the jupyter notebook home directory.
 
 To get to the jupyter notebook, visit ```localhost:8888``` on Unix or Windows, or ```dockerhost:8888``` on Mac OSX, assuming you are using docker-osx-dev.
+
+To get a shell on this running docker, use ```docker exec -i -t CONTAINER_ID bash``` where container id is given by executing ```docker ps```.
