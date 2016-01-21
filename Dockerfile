@@ -16,32 +16,42 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     pandoc \
     emacs \	   
     subversion \
-#    python3-setuptools \
-#    python3-pip \
-#    python3.4-dev \
     gfortran \
-    libopenblas-dev \
-    liblapack-dev \
-    texlive-latex-base \
-    texlive-latex-extra \
-    texlive-fonts-extra \
-    texlive-fonts-recommended \
-    texlive-generic-recommended \
-    sudo \
-    locales \
+#    libopenblas-dev \
+#    liblapack-dev \
+#    texlive-latex-base \
+#    texlive-latex-extra \
+#    texlive-fonts-extra \
+#    texlive-fonts-recommended \
+#    texlive-generic-recommended \
+    python-setuptools \
+    python-pip \
+    python-numpy \
+    python-scipy \
+#    libatlas-dev \
+#    libatlas3gf-base \
+#    sudo \
+#    locales \
     libxrender1 \
     && apt-get clean
 
-RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-    locale-gen
+
+#RUN update-alternatives --set libblas.so.3 \
+#      /usr/lib/atlas-base/atlas/libblas.so.3; \
+#    update-alternatives --set liblapack.so.3 \
+#      /usr/lib/atlas-base/atlas/liblapack.so.3
+
+
+#RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
+#    locale-gen
 
 # Configure environment
-ENV CONDA_DIR /opt/conda
-ENV PATH $CONDA_DIR/bin:$PATH
-ENV SHELL /bin/bash
-ENV LC_ALL en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
+#ENV CONDA_DIR /opt/conda
+#ENV PATH $CONDA_DIR/bin:$PATH
+#ENV SHELL /bin/bash
+#ENV LC_ALL en_US.UTF-8
+#ENV LANG en_US.UTF-8
+#ENV LANGUAGE en_US.UTF-8
 ENV PATH=/root/miniconda2/bin:$PATH
 
 
@@ -75,10 +85,6 @@ RUN conda install -y \
     seaborn \
     scikit-learn
 
-RUN conda install -y \
-    numpy \
-    scipy
-
 #RUN pip3 install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.6.0-cp34-none-linux_x86_64.whl
 
 RUN pip install xgboost
@@ -90,6 +96,4 @@ RUN pip --no-cache-dir install \
 VOLUME /notebook
 WORKDIR /notebook
 EXPOSE 8888
-
 CMD ["ipython","notebook","--no-browser","--ip=0.0.0.0"]
-
