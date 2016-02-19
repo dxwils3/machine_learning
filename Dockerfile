@@ -17,41 +17,14 @@ RUN apt-get update && apt-get install -yq --no-install-recommends \
     emacs \	   
     subversion \
     gfortran \
-#    libopenblas-dev \
-#    liblapack-dev \
-#    texlive-latex-base \
-#    texlive-latex-extra \
-#    texlive-fonts-extra \
-#    texlive-fonts-recommended \
-#    texlive-generic-recommended \
     python-setuptools \
     python-pip \
     python-numpy \
     python-scipy \
-#    libatlas-dev \
-#    libatlas3gf-base \
-#    sudo \
-#    locales \
     libxrender1 \
     && apt-get clean
 
 
-#RUN update-alternatives --set libblas.so.3 \
-#      /usr/lib/atlas-base/atlas/libblas.so.3; \
-#    update-alternatives --set liblapack.so.3 \
-#      /usr/lib/atlas-base/atlas/liblapack.so.3
-
-
-#RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && \
-#    locale-gen
-
-# Configure environment
-#ENV CONDA_DIR /opt/conda
-#ENV PATH $CONDA_DIR/bin:$PATH
-#ENV SHELL /bin/bash
-#ENV LC_ALL en_US.UTF-8
-#ENV LANG en_US.UTF-8
-#ENV LANGUAGE en_US.UTF-8
 ENV PATH=/root/miniconda2/bin:$PATH
 
 
@@ -85,13 +58,13 @@ RUN conda install -y \
     seaborn \
     scikit-learn
 
-#RUN pip3 install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.6.0-cp34-none-linux_x86_64.whl
-
 RUN pip install xgboost
 
 ENV TENSORFLOW_VERSION 0.6.0
 RUN pip --no-cache-dir install \
     https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-${TENSORFLOW_VERSION}-cp27-none-linux_x86_64.whl
+
+RUN pip install https://bitbucket.org/netplngt/tools/get/617986254069.zip
 
 VOLUME /notebook
 WORKDIR /notebook
